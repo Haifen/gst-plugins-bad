@@ -27,6 +27,7 @@
 #include <gst/gst.h>
 #include <gst/video/video.h>
 #include <daala/daalaenc.h>
+#include <ogg/ogg.h>
 
 G_BEGIN_DECLS
 

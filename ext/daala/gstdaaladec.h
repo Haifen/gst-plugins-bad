@@ -31,6 +31,7 @@
 #include <gst/gst.h>
 #include <gst/video/gstvideodecoder.h>
 #include <daala/daaladec.h>
+#include <ogg/ogg.h>
 #include <string.h>
 
 G_BEGIN_DECLS
