@@ -488,7 +488,7 @@ daala_handle_data_packet (GstDaalaDec * dec, daala_packet * packet,
     GstVideoCodecFrame * frame)
 {
   /* normal data packet */
-  daala_image img;
+  daala_image *img;
   gboolean keyframe;
   GstFlowReturn result;
 
@@ -508,7 +508,7 @@ daala_handle_data_packet (GstDaalaDec * dec, daala_packet * packet,
   GST_DEBUG_OBJECT (dec, "parsing data packet");
 
   /* this does the decoding */
-  if (G_UNLIKELY (daala_decode_packet_in (dec->decoder, &img, packet) < 0))
+  if (G_UNLIKELY (daala_decode_packet_in (dec->decoder, packet) < 0))
     goto decode_error;
 
   if (frame &&
@@ -516,11 +516,26 @@ daala_handle_data_packet (GstDaalaDec * dec, daala_packet * packet,
               frame) < 0))
     goto dropping_qos;
 
-  if (G_UNLIKELY ((img.width != dec->info.pic_width
-              || img.height != dec->info.pic_height)))
+  /* This does not work, but I'm probably doing it wrong, and/or GStreamer's
+   * daala_handle_image() expects differently packed data (in what should be
+   * the same struct(...?)).  Also note (by looking at the diff) that the
+   * 'daala_image img' is now a 'daala_image *img', so its members are
+   * derefed with -> and it is passed to daala_handle_image w/o the '&'
+   * prefix.
+   *
+   * derf says daala_decode_img_out is how it's done now that the
+   * daala_decode_packet_in function signature no longer allows for passing
+   * in a daala_image pointer, but obviously something is going wrong.
+   *
+   * Also, daala_decode_img_out should maybe be wrapped in an assert
+   * (G_UNLIKELY?) so that we can make it possible to handle a non-true
+   * return value. */
+  daala_decode_img_out (dec->decoder, img);
+  if (G_UNLIKELY ((img->width != dec->info.pic_width
+              || img->height != dec->info.pic_height)))
     goto wrong_dimensions;
 
-  result = daala_handle_image (dec, &img, frame);
+  result = daala_handle_image (dec, img, frame);
 
   return result;
 
