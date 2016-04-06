@@ -365,7 +365,7 @@ daala_handle_type_packet (GstDaalaDec * dec)
   GST_VIDEO_INFO_HEIGHT (info) = dec->info.pic_height;
 
   /* done */
-  dec->decoder = daala_decode_alloc (&dec->info, dec->setup);
+  dec->decoder = daala_decode_create (&dec->info, dec->setup);
 
   /* Create the output state */
   dec->output_state = state =
