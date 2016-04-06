@@ -445,7 +445,7 @@ daala_enc_pre_push (GstVideoEncoder * benc, GstVideoCodecFrame * frame)
 }
 
 static GstFlowReturn
-daala_push_packet (GstDaalaEnc * enc, ogg_packet * packet)
+daala_push_packet (GstDaalaEnc * enc, daala_packet * packet)
 {
   GstVideoEncoder *benc;
   GstFlowReturn ret;
@@ -538,7 +538,7 @@ daala_enc_reset_ts (GstDaalaEnc * enc, GstClockTime running_time, gint pfn)
 }
 
 static GstBuffer *
-daala_enc_buffer_from_header_packet (GstDaalaEnc * enc, ogg_packet * packet)
+daala_enc_buffer_from_header_packet (GstDaalaEnc * enc, daala_packet * packet)
 {
   GstBuffer *outbuf;
 
@@ -561,7 +561,7 @@ static GstFlowReturn
 daala_enc_handle_frame (GstVideoEncoder * benc, GstVideoCodecFrame * frame)
 {
   GstDaalaEnc *enc;
-  ogg_packet op;
+  daala_packet op;
   GstClockTime timestamp, running_time;
   GstFlowReturn ret;
   gboolean force_keyframe;
@@ -692,7 +692,7 @@ static gboolean
 daala_enc_finish (GstVideoEncoder * benc)
 {
   GstDaalaEnc *enc;
-  ogg_packet op;
+  daala_packet op;
 
   enc = GST_DAALA_ENC (benc);
 

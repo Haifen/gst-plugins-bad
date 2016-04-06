@@ -271,7 +271,7 @@ daala_dec_set_format (GstVideoDecoder * bdec, GstVideoCodecState * state)
 }
 
 static GstFlowReturn
-daala_handle_comment_packet (GstDaalaDec * dec, ogg_packet * packet)
+daala_handle_comment_packet (GstDaalaDec * dec, daala_packet * packet)
 {
   gchar *encoder = NULL;
   GstTagList *list;
@@ -392,7 +392,7 @@ unsupported_format:
 }
 
 static GstFlowReturn
-daala_handle_header_packet (GstDaalaDec * dec, ogg_packet * packet)
+daala_handle_header_packet (GstDaalaDec * dec, daala_packet * packet)
 {
   GstFlowReturn res;
   int ret;
@@ -483,7 +483,7 @@ invalid_frame:
 }
 
 static GstFlowReturn
-daala_handle_data_packet (GstDaalaDec * dec, ogg_packet * packet,
+daala_handle_data_packet (GstDaalaDec * dec, daala_packet * packet,
     GstVideoCodecFrame * frame)
 {
   /* normal data packet */
@@ -558,11 +558,11 @@ static GstFlowReturn
 daala_dec_decode_buffer (GstDaalaDec * dec, GstBuffer * buf,
     GstVideoCodecFrame * frame)
 {
-  ogg_packet packet;
+  daala_packet packet;
   GstFlowReturn result = GST_FLOW_OK;
   GstMapInfo minfo;
 
-  /* make ogg_packet out of the buffer */
+  /* make daala_packet out of the buffer */
   gst_buffer_map (buf, &minfo, GST_MAP_READ);
   packet.packet = minfo.data;
   packet.bytes = minfo.size;
