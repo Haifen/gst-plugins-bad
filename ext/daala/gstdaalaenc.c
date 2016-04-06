@@ -509,7 +509,8 @@ daala_set_header_on_caps (GstCaps * caps, GList * buffers)
 }
 
 static void
-daala_enc_init_buffer (GstDaalaEnc * enc, od_img * buf, GstVideoFrame * frame)
+daala_enc_init_buffer (GstDaalaEnc * enc, daala_image * buf,
+    GstVideoFrame * frame)
 {
   guint i;
 
@@ -647,7 +648,7 @@ daala_enc_handle_frame (GstVideoEncoder * benc, GstVideoCodecFrame * frame)
   }
 
   {
-    od_img img;
+    daala_image img;
     gint res;
     GstVideoFrame vframe;
 

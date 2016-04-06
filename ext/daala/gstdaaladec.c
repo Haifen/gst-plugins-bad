@@ -432,7 +432,8 @@ header_read_error:
 
 /* Allocate buffer and copy image data into Y444 format */
 static GstFlowReturn
-daala_handle_image (GstDaalaDec * dec, od_img * img, GstVideoCodecFrame * frame)
+daala_handle_image (GstDaalaDec * dec, daala_image * img,
+    GstVideoCodecFrame * frame)
 {
   GstVideoDecoder *decoder = GST_VIDEO_DECODER (dec);
   gint width, height, stride;
@@ -487,7 +488,7 @@ daala_handle_data_packet (GstDaalaDec * dec, ogg_packet * packet,
     GstVideoCodecFrame * frame)
 {
   /* normal data packet */
-  od_img img;
+  daala_image img;
   gboolean keyframe;
   GstFlowReturn result;
 
