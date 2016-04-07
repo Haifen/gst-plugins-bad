@@ -523,6 +523,8 @@ daala_enc_init_buffer (GstDaalaEnc * enc, daala_image * buf,
     buf->planes[i].ydec = enc->info.plane_info[i].ydec;
     buf->planes[i].xstride = 1;
     buf->planes[i].ystride = GST_VIDEO_FRAME_COMP_STRIDE (frame, i);
+    buf->planes[i].bitdepth = 8;        /* Stolen from VLC, obviously clamps
+                                           bit depth support to 8BPsP */
   }
 }
 
